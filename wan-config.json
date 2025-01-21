@@ -1,0 +1,727 @@
+[
+  {
+    "type": "spoke",
+    "ip_configs": {
+      "seattle-lan1": {
+        "type": "static",
+        "ip": "192.168.64.1"
+      },
+      "seattle-lan2": {
+        "type": "static",
+        "ip": "192.168.65.1"
+      }
+    },
+    "dhcpd_config": {
+      "enabled": "true",
+      "seattle-lan1": {
+        "type": "local",
+        "ip_start": "192.168.64.2",
+        "ip_end": "192.168.64.200",
+        "gateway": "192.168.64.1",
+        "dns_servers": [
+          "8.8.8.8"
+        ],
+        "options": {},
+        "lease_time": 86400,
+        "fixed_bindings": {}
+      },
+      "seattle-lan2": {
+        "type": "local",
+        "ip_start": "192.168.65.2",
+        "ip_end": "192.168.65.200",
+        "gateway": "192.168.64.1",
+        "dns_servers": [
+          "8.8.8.8"
+        ],
+        "options": {},
+        "lease_time": 86400,
+        "fixed_bindings": {}
+      }
+    },
+    "ospf_areas": {},
+    "port_config": {
+      "ge-0/0/2": {
+        "name": "wan1-broadband",
+        "usage": "wan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false",
+        "wan_type": "broadband",
+        "ip_config": {
+          "type": "static",
+          "ip": "1.1.1.128",
+          "netmask": "/24",
+          "gateway": "1.1.1.1"
+        },
+        "disable_autoneg": "false",
+        "wan_source_nat": {
+          "disabled": "false"
+        },
+        "vpn_paths": {
+          "bostonDC_HA-boston-broadband.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband",
+            "key": 0
+          },
+          "bostonDC_HA-boston-broadband2.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband",
+            "key": 1
+          }
+        }
+      },
+      "ge-0/0/3": {
+        "name": "wan1-mpls",
+        "usage": "wan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false",
+        "wan_type": "broadband",
+        "ip_config": {
+          "type": "static",
+          "ip": "10.0.0.1",
+          "netmask": "/29"
+        },
+        "disable_autoneg": "false",
+        "wan_source_nat": {
+          "disabled": "false"
+        },
+        "vpn_paths": {
+          "bostonDC_HA-boston-mpls.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband",
+            "key": 0
+          },
+          "bostonDC_HA-boston-mpls2.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband",
+            "key": 1
+          }
+        }
+      },
+      "ge-0/0/1": {
+        "networks": [
+          "seattle-lan1"
+        ],
+        "usage": "lan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false"
+      },
+      "ge-0/0/5": {
+        "networks": [
+          "seattle-lan2"
+        ],
+        "usage": "lan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false"
+      }
+    },
+    "bgp_config": {},
+    "routing_policies": {},
+    "extra_routes": {},
+    "path_preferences": {
+      "broadband-overlay": {
+        "strategy": "weighted",
+        "paths": [
+          {
+            "name": "bostonDC_HA-boston-mpls.OrgOverlay",
+            "cost": 10,
+            "type": "vpn"
+          },
+          {
+            "name": "bostonDC_HA-boston-mpls2.OrgOverlay",
+            "cost": 20,
+            "type": "vpn"
+          },
+          {
+            "name": "bostonDC_HA-boston-broadband.OrgOverlay",
+            "cost": 30,
+            "type": "vpn"
+          },
+          {
+            "name": "bostonDC_HA-boston-broadband2.OrgOverlay",
+            "cost": 40,
+            "type": "vpn"
+          }
+        ]
+      },
+      "lan": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "type": "local",
+            "networks": [
+              "seattle-lan1"
+            ]
+          }
+        ]
+      },
+      "local-breakout": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "name": "wan1-broadband",
+            "type": "wan"
+          }
+        ]
+      },
+      "lan2": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "type": "local",
+            "networks": [
+              "seattle-lan2"
+            ]
+          }
+        ]
+      }
+    },
+    "service_policies": [
+      {
+        "name": "boston-seattle-lan1",
+        "tenants": [
+          "boston-lan1",
+          "boston-lan2"
+        ],
+        "services": [
+          "seattle-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "lan",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "seattle-boston",
+        "tenants": [
+          "seattle-lan1"
+        ],
+        "services": [
+          "boston-lan1",
+          "boston-lan2",
+          "alaska-lan",
+          "dallas-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "broadband-overlay",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "local-breakout",
+        "tenants": [
+          "seattle-lan1",
+          "seattle-lan2"
+        ],
+        "services": [
+          "any"
+        ],
+        "action": "allow",
+        "path_preference": "local-breakout",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "inbound-to-lan1",
+        "tenants": [
+          "alaska-lan",
+          "dallas-lan1",
+          "seattle-lan2"
+        ],
+        "services": [
+          "seattle-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "lan",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "boston-seattle-lan2",
+        "tenants": [
+          "boston-lan1",
+          "boston-lan2"
+        ],
+        "services": [
+          "seattle-lan2"
+        ],
+        "action": "allow",
+        "path_preference": "lan2",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "seattle-boston2",
+        "tenants": [
+          "seattle-lan2"
+        ],
+        "services": [
+          "alaska-lan",
+          "boston-lan1",
+          "boston-lan2",
+          "dallas-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "broadband-overlay",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "inbound-to-lan2",
+        "tenants": [
+          "alaska-lan",
+          "dallas-lan1",
+          "seattle-lan1"
+        ],
+        "services": [
+          "seattle-lan2"
+        ],
+        "action": "allow",
+        "path_preference": "lan2",
+        "idp": {
+          "enabled": "false"
+        }
+      }
+    ],
+    "vrf_instances": {},
+    "tunnel_configs": {},
+    "oob_ip_config": {
+      "type": "dhcp",
+      "node1": {
+        "type": "dhcp"
+      }
+    },
+    "ntp_servers": [
+      "pool.ntp.org"
+    ],
+    "dns_servers": [
+      "8.8.8.8"
+    ],
+    "tunnel_provider_options": {
+      "jse": {},
+      "zscaler": {}
+    },
+    "ospf_config": {
+      "enabled": "false",
+      "areas": {}
+    },
+    "name": "seattle-spoke"
+  },
+  {
+    "type": "spoke",
+    "ip_configs": {
+      "dallas-lan1": {
+        "type": "static",
+        "ip": "192.168.63.1"
+      }
+    },
+    "dhcpd_config": {
+      "enabled": "true",
+      "dallas-lan1": {
+        "type": "local",
+        "ip_start": "192.168.63.2",
+        "ip_end": "192.168.63.200",
+        "gateway": "192.168.63.1",
+        "dns_servers": [
+          "8.8.8.8"
+        ],
+        "options": {},
+        "lease_time": 86400,
+        "fixed_bindings": {}
+      }
+    },
+    "ospf_areas": {},
+    "port_config": {
+      "ge-0/0/2": {
+        "name": "wan1-broadband",
+        "usage": "wan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false",
+        "wan_type": "broadband",
+        "ip_config": {
+          "type": "static",
+          "ip": "2.2.2.128",
+          "netmask": "/24",
+          "gateway": "2.2.2.1"
+        },
+        "disable_autoneg": "false",
+        "wan_source_nat": {
+          "disabled": "false"
+        },
+        "vpn_paths": {
+          "bostonDC_HA-boston-broadband.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband"
+          },
+          "bostonDC_HA-boston-broadband2.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband"
+          }
+        }
+      },
+      "ge-0/0/3": {
+        "name": "wan1-mpls",
+        "usage": "wan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false",
+        "wan_type": "broadband",
+        "ip_config": {
+          "type": "static",
+          "ip": "5.5.5.128",
+          "netmask": "/24",
+          "gateway": "5.5.5.1"
+        },
+        "disable_autoneg": "false",
+        "wan_source_nat": {
+          "disabled": "false"
+        },
+        "vpn_paths": {
+          "bostonDC_HA-boston-mpls.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband"
+          },
+          "bostonDC_HA-boston-mpls2.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband"
+          }
+        }
+      },
+      "ge-0/0/1": {
+        "networks": [
+          "dallas-lan1"
+        ],
+        "usage": "lan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false"
+      }
+    },
+    "bgp_config": {},
+    "routing_policies": {},
+    "extra_routes": {},
+    "path_preferences": {
+      "broadband-overlay": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "name": "bostonDC_HA-boston-broadband2.OrgOverlay",
+            "type": "vpn"
+          },
+          {
+            "name": "bostonDC_HA-boston-broadband.OrgOverlay",
+            "type": "vpn"
+          }
+        ]
+      },
+      "lan": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "type": "local",
+            "networks": [
+              "dallas-lan1"
+            ]
+          }
+        ]
+      },
+      "local-breakout": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "name": "wan1-broadband",
+            "type": "wan"
+          }
+        ]
+      }
+    },
+    "service_policies": [
+      {
+        "name": "boston-dallas",
+        "tenants": [
+          "boston-lan1",
+          "boston-lan2"
+        ],
+        "services": [
+          "dallas-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "lan"
+      },
+      {
+        "name": "dallas-boston",
+        "tenants": [
+          "dallas-lan1"
+        ],
+        "services": [
+          "boston-lan1",
+          "boston-lan2",
+          "alaska-lan",
+          "seattle-lan1",
+          "seattle-lan2"
+        ],
+        "action": "allow",
+        "path_preference": "broadband-overlay"
+      },
+      {
+        "name": "local-breakout",
+        "tenants": [
+          "dallas-lan1"
+        ],
+        "services": [
+          "any"
+        ],
+        "action": "allow",
+        "path_preference": "local-breakout"
+      },
+      {
+        "name": "inbound-to-lan1",
+        "tenants": [
+          "alaska-lan",
+          "seattle-lan1",
+          "seattle-lan2"
+        ],
+        "services": [
+          "dallas-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "lan"
+      }
+    ],
+    "vrf_instances": {},
+    "tunnel_configs": {},
+    "oob_ip_config": {
+      "type": "dhcp",
+      "node1": {
+        "type": "dhcp"
+      }
+    },
+    "ntp_servers": [
+      "pool.ntp.org"
+    ],
+    "dns_servers": [
+      "8.8.8.8"
+    ],
+    "tunnel_provider_options": {
+      "jse": {},
+      "zscaler": {}
+    },
+    "ospf_config": {
+      "enabled": "false",
+      "areas": {}
+    },
+    "name": "dallas-spoke"
+  },
+  {
+    "type": "spoke",
+    "ip_configs": {
+      "alaska-lan": {
+        "type": "static",
+        "ip": "192.168.66.1"
+      }
+    },
+    "dhcpd_config": {
+      "enabled": "true",
+      "alaska-lan": {
+        "type": "local",
+        "ip_start": "192.168.66.2",
+        "ip_end": "192.168.66.200",
+        "gateway": "192.168.66.1",
+        "dns_servers": [
+          "8.8.8.8"
+        ],
+        "options": {},
+        "lease_time": 86400,
+        "fixed_bindings": {}
+      }
+    },
+    "ospf_areas": {},
+    "port_config": {
+      "ge-0/0/3": {
+        "name": "wan1-broadband",
+        "usage": "wan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false",
+        "wan_type": "broadband",
+        "ip_config": {
+          "type": "static",
+          "ip": "6.6.6.128",
+          "netmask": "/24",
+          "gateway": "6.6.6.1"
+        },
+        "disable_autoneg": "false",
+        "wan_source_nat": {
+          "disabled": "false"
+        },
+        "vpn_paths": {
+          "bostonDC_HA-boston-broadband.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband",
+            "key": 0
+          },
+          "bostonDC_HA-boston-broadband2.OrgOverlay": {
+            "role": "spoke",
+            "bfd_profile": "broadband"
+          }
+        }
+      },
+      "ge-0/0/1": {
+        "networks": [
+          "alaska-lan"
+        ],
+        "usage": "lan",
+        "aggregated": "false",
+        "redundant": "false",
+        "critical": "false",
+        "disabled": "false"
+      }
+    },
+    "bgp_config": {},
+    "routing_policies": {},
+    "extra_routes": {},
+    "path_preferences": {
+      "broadband-overlay": {
+        "strategy": "weighted",
+        "paths": [
+          {
+            "name": "bostonDC_HA-boston-broadband.OrgOverlay",
+            "cost": 10,
+            "type": "vpn"
+          },
+          {
+            "name": "bostonDC_HA-boston-broadband2.OrgOverlay",
+            "cost": 20,
+            "type": "vpn"
+          }
+        ]
+      },
+      "lan": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "type": "local",
+            "networks": [
+              "alaska-lan"
+            ]
+          }
+        ]
+      },
+      "local-breakout": {
+        "strategy": "ordered",
+        "paths": [
+          {
+            "name": "wan1-broadband",
+            "type": "wan"
+          }
+        ]
+      }
+    },
+    "service_policies": [
+      {
+        "name": "boston-dallas",
+        "tenants": [
+          "boston-lan1",
+          "boston-lan2"
+        ],
+        "services": [
+          "alaska-lan"
+        ],
+        "action": "allow",
+        "path_preference": "lan",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "dallas-boston",
+        "tenants": [
+          "alaska-lan"
+        ],
+        "services": [
+          "boston-lan1",
+          "boston-lan2",
+          "seattle-lan1",
+          "seattle-lan2",
+          "dallas-lan1"
+        ],
+        "action": "allow",
+        "path_preference": "broadband-overlay",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "local-breakout",
+        "tenants": [
+          "alaska-lan"
+        ],
+        "services": [
+          "any"
+        ],
+        "action": "allow",
+        "path_preference": "local-breakout",
+        "idp": {
+          "enabled": "false"
+        }
+      },
+      {
+        "name": "inbound-to-lan1",
+        "tenants": [
+          "seattle-lan1",
+          "seattle-lan2",
+          "dallas-lan1"
+        ],
+        "services": [
+          "alaska-lan"
+        ],
+        "action": "allow",
+        "path_preference": "lan",
+        "idp": {
+          "enabled": "false"
+        }
+      }
+    ],
+    "vrf_instances": {},
+    "tunnel_configs": {},
+    "oob_ip_config": {
+      "type": "dhcp",
+      "node1": {
+        "type": "dhcp"
+      }
+    },
+    "ntp_servers": [
+      "pool.ntp.org"
+    ],
+    "dns_servers": [
+      "8.8.8.8"
+    ],
+    "tunnel_provider_options": {
+      "jse": {},
+      "zscaler": {}
+    },
+    "ospf_config": {
+      "enabled": "false",
+      "areas": {}
+    },
+    "name": "alaska-spoke"
+  }
+]

@@ -1,0 +1,108 @@
+[
+        {
+        "addresses": [
+            "172.26.128.0/30"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "boston-lan2",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "192.168.64.0/24"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "seattle-lan1",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "192.168.65.0/24"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "seattle-lan2",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "172.16.128.0/30"
+        ],
+        "specs": [
+            {
+                "protocol": "tcp",
+                "port_range": "80-80"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "http-boston-lan1",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "172.26.128.0/30"
+        ],
+        "specs": [
+            {
+                "protocol": "tcp",
+                "port_range": "80-80"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "http-boston-lan2",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "192.168.66.0/24"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "alaska-lan",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "192.168.63.0/24"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "dallas-lan1",
+        "type": "custom"
+    },
+    {
+        "addresses": [
+            "172.16.128.0/30"
+        ],
+        "specs": [
+            {
+                "protocol": "any"
+            }
+        ],
+        "traffic_type": "default",
+        "name": "boston-lan1",
+        "type": "custom"
+    }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "country_code": "US",
+    "timezone": "America/Chicago",
+    "address": "Dallas, TX, USA",
+    "sitegroup_ids": [],
+    "notes": "",
+    "latlng": {
+      "lat": 32.776664,
+      "lng": -96.796988
+    },
+    "name": "dallas",
+    "tzoffset": 1080
+  },
+  {
+    "country_code": "US",
+    "timezone": "America/Anchorage",
+    "address": "Nome, AK, USA",
+    "sitegroup_ids": [],
+    "notes": "",
+    "latlng": {
+      "lat": 64.500591,
+      "lng": -165.408641
+    },
+    "id": "61352a8e-3b10-4717-9a5a-3b3525b0b224",
+    "name": "alaska",
+    "tzoffset": 900
+  },
+  {
+    "country_code": "US",
+    "timezone": "America/Los_Angeles",
+    "address": "Seattle, WA, USA",
+    "sitegroup_ids": [],
+    "notes": "",
+    "latlng": {
+      "lat": 47.606139,
+      "lng": -122.332848
+    },
+    "name": "seattle",
+    "tzoffset": 960
+  },
+  {
+    "country_code": "US",
+    "timezone": "America/New_York",
+    "address": "Boston, MA, USA",
+    "sitegroup_ids": [],
+    "notes": "",
+    "latlng": {
+      "lat": 42.360082,
+      "lng": -71.05888
+    },
+    "name": "boston",
+    "tzoffset": 1140
+  },
+  {
+    "timezone": "UTC",
+    "name": "main_site",
+    "tzoffset": 0
+  }
+]

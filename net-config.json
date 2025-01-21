@@ -1,0 +1,152 @@
+[
+  {
+    "isolation": "true",
+    "subnet": "192.168.66.0/24",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "192.168.66.0",
+    "prefix": "24",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "alaska-lan"
+  },
+  {
+    "isolation": "true",
+    "subnet": "172.16.128.0/30",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "172.16.128.0",
+    "prefix": "30",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "boston-lan1"
+  },
+  {
+    "isolation": "true",
+    "subnet": "172.26.128.0/30",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "172.26.128.0",
+    "prefix": "30",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "boston-lan2"
+  },
+  {
+    "isolation": "true",
+    "subnet": "192.168.63.0/24",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "192.168.63.0",
+    "prefix": "24",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "dallas-lan1"
+  },
+  {
+    "isolation": "true",
+    "subnet": "192.168.64.0/24",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "192.168.64.0",
+    "prefix": "24",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "seattle-lan1"
+  },
+  {
+    "isolation": "true",
+    "subnet": "192.168.65.0/24",
+    "tenants": {},
+    "internet_access": {
+      "static_nat": {},
+      "destination_nat": {}
+    },
+    "vpn_access": {
+      "OrgOverlay": {
+        "routed": "true",
+        "no_readvertise_to_overlay": "false",
+        "no_readvertise_to_lan_bgp": "false",
+        "no_readvertise_to_lan_ospf": "false"
+      }
+    },
+    "ip": "192.168.65.0",
+    "prefix": "24",
+    "routed_for_networks": [],
+    "sourceNats": [],
+    "destNats": [],
+    "users": [],
+    "disallow_mist_services": "false",
+    "name": "seattle-lan2"
+  }
+]
