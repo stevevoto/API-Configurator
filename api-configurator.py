@@ -17,8 +17,8 @@
 # 5) Maintains original name-increment logic for WAN edges in case of name conflicts.
 #
 # Usage:
-#   python3 apiCrank.py
-#
+#   python3 api-configurator.py
+#   python3 api-configurator.py --convert-bool (don't use this other than for testing)
 ###########################
 
 import os
