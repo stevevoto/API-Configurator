@@ -9,22 +9,28 @@
 #  - Hub profiles
 #  - WAN edges
 #
-# New Features:
+# New/Modified Features:
 # 1) Reads org_id and token from Token-Org.txt (instead of prompting or hard-coding).
 # 2) Reads JSON payloads from local files (app-*.json, net-*.json, site-*.json, hub-*.json, wan-*.json).
-# 3) **Loads** the JSON normally, then **converts** Python booleans to **"true"/"false"** strings before posting.
+# 3) *Optional* conversion of Python booleans to "true"/"false" strings (controlled by CONVERT_BOOLEANS).
 # 4) Adds debug prints showing requests and responses.
 # 5) Maintains original name-increment logic for WAN edges in case of name conflicts.
 #
 # Usage:
-#   python3 api-configurator.py
+#   python3 apiCrank.py
 #
 ###########################
 
 import os
-import re
 import json
 import requests
+
+###########################
+# Global Config Toggle
+###########################
+# Set to True if you want to convert Python True/False to "true"/"false" in the JSON payloads.
+# Set to False if you want to keep them as normal JSON booleans.
+CONVERT_BOOLEANS = False
 
 # ----------------------
 # 1. Read Token and Org ID from Token-Org.txt
@@ -121,15 +127,17 @@ def submit_json(data_list, org_id, endpoint, token):
     }
 
     for item in data_list:
-        # 1) Convert all Python booleans to "true"/"false" strings
-        bools_to_strings(item)
+        # 1) Convert all Python booleans to "true"/"false" strings if enabled
+        if CONVERT_BOOLEANS:
+            bools_to_strings(item)
 
         # 2) Debug print
         print(f"\n[DEBUG] Submitting to endpoint={endpoint} URL={url}")
         print(f"[DEBUG] Payload:\n{json.dumps(item, indent=2)}")
 
         # 3) Post the data
-        # Note: We pass 'json.dumps(item)' so that we don't inadvertently reconvert strings back to booleans
+        # Note: We pass 'json.dumps(item)' so that we don't inadvertently reconvert
+        #       strings back to booleans if they were converted
         resp = requests.post(url, headers=headers, data=json.dumps(item))
         print(f"[DEBUG] Response code: {resp.status_code}")
         print(f"[DEBUG] Response text: {resp.text}")
@@ -157,8 +165,9 @@ def submit_hub_profiles(hub_data, org_id, token):
     }
 
     for item in hub_data:
-        # Convert booleans to strings
-        bools_to_strings(item)
+        # Convert booleans to strings if enabled
+        if CONVERT_BOOLEANS:
+            bools_to_strings(item)
 
         print(f"\n[DEBUG] Submitting Hub Profile to: {url}")
         print(f"[DEBUG] Payload:\n{json.dumps(item, indent=2)}")
@@ -198,8 +207,9 @@ def submit_wan_edges(wan_data, org_id, token):
                 new_name = f"{base_name}-{counter}"
                 item['name'] = new_name
 
-            # Convert booleans to strings
-            bools_to_strings(item)
+            # Convert booleans to strings if enabled
+            if CONVERT_BOOLEANS:
+                bools_to_strings(item)
 
             print(f"\n[DEBUG] Submitting WAN Edge to: {url}")
             print(f"[DEBUG] Payload:\n{json.dumps(item, indent=2)}")
