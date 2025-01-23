@@ -17,9 +17,9 @@ The script reads these files, **converts Python booleans to string values** wher
 
 ---
 ## Run Code
-python3 api-configurator.py --get. (get will create a backup folder time/date of all files in the org)
-or...
-python3 api-configurator.py --post (post will post any json files with prefixes to the org)
+- python3 api-configurator.py --get. (get will create a backup folder time/date of all files in the org)
+- or...
+- python3 api-configurator.py --post (post will post any json files with prefixes to the org)
 
 ## Key Features
 
