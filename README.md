@@ -16,6 +16,10 @@ Each resource is stored in a separate JSON file (e.g., `net-*.json`, `hub-*.json
 The script reads these files, **converts Python booleans to string values** where necessary (`"true"/"false"`) before **POST**ing them, and then **submits** each to the Mist API under your Org.
 
 ---
+## Run Code
+python3 api-configurator.py --get. (get will create a backup folder time/date of all files in the org)
+or...
+python3 api-configurator.py --post (post will post any json files with prefixes to the org)
 
 ## Key Features
 
