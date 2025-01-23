@@ -72,7 +72,7 @@ Notes and Tips
 •	Ensure valid .json files are in the local directory when using --post.
 •	Use Mist API documentation to confirm the required fields for each configuration type (e.g., services, networks).
 •	If the script logs errors for invalid JSON, inspect the files using:
-- test your json files python3 -m json.tool <file> 
+- test your json files python3 -m json.tool "filename"
 
 
 
