@@ -1,3 +1,4 @@
+[
 {
   "ip_configs": {
     "boston-lan1": {
@@ -409,3 +410,4 @@
   "name": "bostonDC_HA",
   "type": "gateway"
 }
+]
