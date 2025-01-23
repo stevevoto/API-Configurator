@@ -63,3 +63,11 @@ The script reads these files, **converts Python booleans to string values** wher
   ```makefile
   token=<YOUR_API_TOKEN>
   org_id=<YOUR_ORG_ID>
+
+ ## Notes and Tips
+•	Ensure valid .json files are in the local directory when using --post.
+•	Use Mist API documentation to confirm the required fields for each configuration type (e.g., services, networks).
+•	If the script logs errors for invalid JSON, inspect the files using:
+python3 -m json.tool <file>
+![image](https://github.com/user-attachments/assets/b5a71fa4-c52c-4f7f-a495-ba8eef290363)
+
